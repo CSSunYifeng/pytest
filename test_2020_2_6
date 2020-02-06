@@ -1,0 +1,510 @@
+
+# 第三天——Numpy
+## 4.1
+
+#### 随机生成
+
+
+```python
+import numpy as np
+data = np.random.randn(2,3)
+data
+```
+
+
+
+
+    array([[-0.07931318,  1.56392339, -0.33830411],
+           [-1.47348005,  0.43736492,  0.24403072]])
+
+
+
+#### 数学运算
+
+
+```python
+data*10
+```
+
+
+
+
+    array([[ -0.79313179,  15.63923388,  -3.3830411 ],
+           [-14.73480052,   4.37364919,   2.44030719]])
+
+
+
+nadarry（即上文的data）内部的元素都必须是相同类型的
+
+shape和dtype（属性？）
+
+
+```python
+data.shape
+```
+
+
+
+
+    (2, 3)
+
+
+
+
+```python
+data.dtype
+```
+
+
+
+
+    dtype('float64')
+
+
+
+### 4.1.1ndarry生成
+
+#### 1.由序列(list)生成数组(array)
+
+
+```python
+data1 = [1,2,3.5,4,5]
+data2 = np.array(data1)
+data2
+```
+
+
+
+
+    array([1. , 2. , 3.5, 4. , 5. ])
+
+
+
+
+```python
+data3 = [[1,3],[2,2.5]]
+data4 = np.array(data3)
+data4
+```
+
+
+
+
+    array([[1. , 3. ],
+           [2. , 2.5]])
+
+
+
+
+```python
+data4.shape
+```
+
+
+
+
+    (2, 2)
+
+
+
+#### 函数生成
+
+
+```python
+np.zeros(2)
+```
+
+
+
+
+    array([0., 0.])
+
+
+
+
+```python
+np.zeros(2,3)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-100-118543318af5> in <module>()
+    ----> 1 np.zeros(2,3)
+    
+
+    TypeError: data type not understood
+
+
+
+```python
+np.zeros((2,3))
+```
+
+
+
+
+    array([[0., 0., 0.],
+           [0., 0., 0.]])
+
+
+
+
+```python
+np.empty((2,3,2))
+```
+
+
+
+
+    array([[[0., 0.],
+            [0., 0.],
+            [0., 0.]],
+    
+           [[0., 0.],
+            [0., 0.],
+            [0., 0.]]])
+
+
+
+
+```python
+注意empty返回的是未初始化的，并不一定是非零的
+```
+
+
+      File "<ipython-input-103-06138f99e334>", line 1
+        注意empty返回的是未初始化的，并不一定是非零的
+                                ^
+    SyntaxError: invalid character in identifier
+    
+
+
+#### 常用生成函数
+1. array 接受列表或元组数组等序列并对其进行复制
+2. asarry 如果已经是多维数组（ndarray）则不会对其进行复制
+3. arange tange的numpy版，返回array
+4. ones/ones_like 创建指定形状的全1数组/创建另一个数组为模板的全1数组
+5. zeros/zeros_like 同上创建全0数组
+6. empty/empty_like 同上创建空数组
+7. full/full_like 同上创建指定数值指定类型的数组（方法貌似比较复杂）
+8. eye/identity 创建n * n的单位阵
+
+### 4.1.2 数据类型
+
+dtype——获取类型
+
+astype——转换类型
+
+
+```python
+data6 = np.array([1,2,3,4,5])
+data6.dtype
+```
+
+
+
+
+    dtype('int32')
+
+
+
+
+```python
+floatary6 = data6.astype(np.float64)
+floatary6.dtype
+```
+
+
+
+
+    dtype('float64')
+
+
+
+
+```python
+floatary6
+```
+
+
+
+
+    array([1., 2., 3., 4., 5.])
+
+
+
+
+```python
+data7 = np.array(['1.2','1.3','1.23'])
+floatary7 = data7.astype(np.float64)
+floatary7
+```
+
+
+
+
+    array([1.2 , 1.3 , 1.23])
+
+
+
+### 4.1.3 NumPy的数组的运算
+
+一般的加减乘除大于小于：形状相同则元素与元素进行算数运算
+
+
+```python
+data8 = np.array([[1,2,3],[4,5,6]])
+data8
+```
+
+
+
+
+    array([[1, 2, 3],
+           [4, 5, 6]])
+
+
+
+
+```python
+data8*data8
+```
+
+
+
+
+    array([[ 1,  4,  9],
+           [16, 25, 36]])
+
+
+
+
+```python
+data8 - data8
+```
+
+
+
+
+    array([[0, 0, 0],
+           [0, 0, 0]])
+
+
+
+
+```python
+data8/data8
+```
+
+
+
+
+    array([[1., 1., 1.],
+           [1., 1., 1.]])
+
+
+
+
+```python
+data9 = np.array([[0,2,3],[0,5,6]])
+data9<data8
+```
+
+
+
+
+    array([[ True, False, False],
+           [ True, False, False]])
+
+
+
+### 4.1.4 索引和切片
+
+#### NumPy中切片的性质
+
+NumPy的切片不会复制，对切片的改动会影响原数组的值
+
+
+```python
+data9 = np.arange(10)
+data9
+```
+
+
+
+
+    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+
+
+
+```python
+data9[5:8]
+```
+
+
+
+
+    array([5, 6, 7])
+
+
+
+
+```python
+data9[5:8] = 0
+data9
+```
+
+
+
+
+    array([0, 1, 2, 3, 4, 0, 0, 0, 8, 9])
+
+
+
+
+```python
+ary1 = data9[5:8]
+ary1[0] = 123456
+data9
+```
+
+
+
+
+    array([     0,      1,      2,      3,      4, 123456,      0,      0,
+                8,      9])
+
+
+
+
+```python
+ary1[:] = 122
+data9
+```
+
+
+
+
+    array([  0,   1,   2,   3,   4, 122, 122, 122,   8,   9])
+
+
+
+#### 索引格式（方括号中的索引由左向右依次代表由外到内的元素,遵循左行右列原则）
+
+
+```python
+ary2 = np.array([[1,2,3],[4,5,6],[7,8,9]])
+ary2
+```
+
+
+
+
+    array([[1, 2, 3],
+           [4, 5, 6],
+           [7, 8, 9]])
+
+
+
+
+```python
+ary2[1:]
+```
+
+
+
+
+    array([[4, 5, 6],
+           [7, 8, 9]])
+
+
+
+注意以下两者输出的区别
+
+
+```python
+#选取二到三行的第三个元素组成输出，输出一个二维向量
+ary2[1:,2]
+```
+
+
+
+
+    array([6, 9])
+
+
+
+
+```python
+#选取二到三行的第三个元素组成输出，输出两个一维向量
+ary2[1:,2:]
+```
+
+
+
+
+    array([[6],
+           [9]])
+
+
+
+#### 索引格式（也可采用递归调用）
+
+
+```python
+ary2[1:]
+```
+
+
+
+
+    array([[4, 5, 6],
+           [7, 8, 9]])
+
+
+
+
+```python
+ary2[1:][1:2]
+```
+
+
+
+
+    array([[7, 8, 9]])
+
+
+
+对比
+
+
+```python
+ary2[1:]
+```
+
+
+
+
+    array([[4, 5, 6],
+           [7, 8, 9]])
+
+
+
+
+```python
+ary2[1:,1:2]
+```
+
+
+
+
+    array([[5],
+           [8]])
+
+
+
+切片中[,]与[][]并不等价
